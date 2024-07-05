@@ -1,0 +1,24 @@
+1. mkdir express-dir | touch index.js  [express-dir > index.js]
+2. > express-dir\npm i express
+3. actual coding starts inside "index.js"
+
+    const express = require('express');
+    const app = express();
+    
+    appp.listen(3000);
+
+4. to run : >express-dir\ node index.js    [everytime code edited run this]
+
+--------------1st mini code -------
+index.js: node index.js
+    const express = require('express');
+    const app = express();
+
+    app.get('/', (req, res)=>{console.log('EXPRESS WORKING'); res.response('EXPRESS WORKING...') })
+
+    app.listen(3000);
+
+    -------------- 2nd code ------------
+index.js : node index.js
+
+    
