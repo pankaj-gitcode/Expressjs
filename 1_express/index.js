@@ -1,21 +1,23 @@
 const express = require('express');
-
 const app = express();
 
-const sum = (a,b)=>{
-    let sum = a + b;
-    return sum
+const PORT = 3000;
+
+const sum = (num)=>{
+    let sum = 0;
+    for(let i=1; i<=num; i++){
+        sum += i;
+    }
+    return sum;
 }
 
-app.get('/', (req, res)=>{
-   res.send(`HELLO Express....`) 
+app.get('/', (req,res)=>{
+    res.send(`This is Root....`)
 })
 
 app.get('/sum', (req, res)=>{
-    const num1 = Number(req.query.num1);
-    const num2 = Number(req.query.num2);
-
-    res.send(`You've entered ${num1} & ${num2}\nTotal sum is ${sum(num1,num2)}`);
+    const num = req.query.num;
+    res.send(`Sum of ${num} numbers : ${sum(num)}`);   
 })
 
-app.listen(3000);
+app.listen(PORT, (req,res)=>console.log(`PORT listening on: ${PORT}`))
