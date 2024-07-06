@@ -19,6 +19,25 @@ index.js: node index.js
     app.listen(3000);
 
     -------------- 2nd code ------------
-index.js : node index.js
+index.js : node index.js [Query Parameter]
 
-    
+    const express = require('express'); const app=express(); const PORT = 2000;
+    const sum = (num)=>{ const sum=0; for(let i=1; i<=num; i++){ sum+=1; } }
+    app.get('/sum', (req,res)=>{ 
+        const num = req.query.num;
+        // res.send(`Sum of ${num} numbers : ${sum(num)}`);
+        //above line in JSON format
+        res.json({sum: `sum is: ${sum}`});
+     })
+
+
+     ----------------- 3rd code  ---------------
+     var users = [{
+        name: 'john',
+        kidneys:[{
+            healthy:false,
+        }]
+     }];
+
+     1. numberOfKidneys, num of Healthy Kidneys & num of Unhealthy kidneys ==> app.get(     )
+     2. Whenever person comes add ungelathy kidneys

@@ -1,23 +1,40 @@
 const express = require('express');
 const app = express();
-
 const PORT = 3000;
 
-const sum = (num)=>{
-    let sum = 0;
-    for(let i=1; i<=num; i++){
-        sum += i;
-    }
-    return sum;
-}
+app.use(express.json());
 
-app.get('/', (req,res)=>{
-    res.send(`This is Root....`)
+app.listen(PORT, (req,res)=>console.log(`PORT Listening on: ${PORT}`));
+
+//local DB
+const users = [{
+    name: 'John',
+    kidneys:[{
+        healthy: true,
+    },{
+        healthy: false,
+    }] 
+}]
+
+app.get('/', (req, res)=>{
+    const totalKidneysLenth = users.map(e=>e.kidneys.length).toString();
+    console.log(totalKidneysLenth)
+    // const totalKidneysLenth = totalKidneys.length;
+
+    let healthyKidney = 0;
+    let unhealthyKidney = 0;
+
+   
+    users.map(e=>e.kidneys.map(e=>{
+        e.healthy? healthyKidney += 1 : unhealthyKidney += 1;
+    }))
+
+
+
+
+    res.json({
+        totalKidneysLenth,
+        healthyKidney,
+        unhealthyKidney
+    })
 })
-
-app.get('/sum', (req, res)=>{
-    const num = req.query.num;
-    res.send(`Sum of ${num} numbers : ${sum(num)}`);   
-})
-
-app.listen(PORT, (req,res)=>console.log(`PORT listening on: ${PORT}`))
