@@ -66,9 +66,7 @@ app.post('/', (req,res)=>{
 app.put('/', (req, res)=>{
     try{
 
-        const kidneyHealth = users.reduce((accum, elem)=>
-            elem.kidneys.reduce((accum, elem)=>
-                elem.healthy,0),0);
+        
     
         const kidneysHealth = [];
         users.map(e=>e.kidneys.map(e=>{
@@ -86,4 +84,29 @@ app.put('/', (req, res)=>{
         res.status(500).json({msg: err.message})
     }
 
+})
+
+// delete all the unhealthy kidneys if any
+app.delete('/', (req, res)=>{
+    try{
+        // users.map(e=>e.kidneys.map(e=>{
+            
+            //     if(e.healthy===false ){
+                //         delete e;
+                //     }
+                // }))
+                
+        let newKidney = [];
+        users.forEach(e=>e.kidneys.find(e=>e.healthy===true?newKidney.push(e):null))
+        users.forEach(e=>e.kidneys = newKidney);
+
+        console.log(newKidney, JSON.stringify(users))
+
+        res.status(200).json({msg: 'done!!'})
+    }
+    catch(err){
+        res.status(500).json({
+            err: err.message
+        })
+    }
 })
