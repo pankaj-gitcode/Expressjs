@@ -18,7 +18,7 @@ const users = [{
 
 app.get('/', (req, res)=>{
     try{
-
+        const kidneys = users.map(e=>e.kidneys);
         let healthyKidney = 0;
         let unhealthyKidney = 0;
 
@@ -30,7 +30,8 @@ app.get('/', (req, res)=>{
             e.healthy? healthyKidney +=1 : unhealthyKidney +=1;
         }))
 
-        res.status(500).json({
+        res.status(200).json({
+            kidneys,
             totalKidneyLength,
             healthyKidney,
             unhealthyKidney
@@ -40,5 +41,49 @@ app.get('/', (req, res)=>{
         res.status(500).json({err: err.message})
     }
 
+})
+
+app.post('/', (req,res)=>{
+    try{
+
+        const newKidney = req.body.newKidney;
+        users.map(e=>e.kidneys.push({
+            healthy: newKidney
+        }));
+
+        res.status(200).json({
+            newKidney,
+            message: [users.map(e=>e.kidneys)]
+        })
+    }
+    catch(err){
+        res.status(500).json({message: err.message})
+    }
+    
+})
+
+// replace unHealthy kidney with healthy
+app.put('/', (req, res)=>{
+    try{
+
+        const kidneyHealth = users.reduce((accum, elem)=>
+            elem.kidneys.reduce((accum, elem)=>
+                elem.healthy,0),0);
+    
+        const kidneysHealth = [];
+        users.map(e=>e.kidneys.map(e=>{
+            
+                if(e.healthy === false){
+                    return e.healthy = true
+                }
+            
+        }))
+        console.log(kidneyHealth, kidneysHealth)
+        res.status(200).json({msg: 'done'})
+    }
+    
+    catch(err){
+        res.status(500).json({msg: err.message})
+    }
 
 })
