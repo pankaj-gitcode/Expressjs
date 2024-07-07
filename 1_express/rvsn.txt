@@ -40,4 +40,25 @@ index.js : node index.js [Query Parameter]
      }];
 
      1. numberOfKidneys, num of Healthy Kidneys & num of Unhealthy kidneys ==> app.get(     )
+        GET Method:
+            const express = require('express'); const app = express(); const PORT = 2000;
+            app.listen(PORT, (req,res)=>console.log(`PORT Listening on: ${PORT}`));
+            app.use(express.json());
+
+            app.get('/', (req, res)=>{
+                const totalKidneyLen = users.map(e=>e.kidneys.length).join(''); //Kidneys total length in string format
+                let healthyKidney = 0;
+                let unhealthyKidney = 0;
+
+                users.map(e=>e.kidneys.map(e=>{
+                    e.healthy? healthyKidney += 1: unhealthyKidney += 1;
+                }));
+
+                res.json({
+                    totalKidneyLen,
+                    healthyKidney,
+                    unhealthyKidney
+                })
+            })
+
      2. Whenever person comes add ungelathy kidneys
