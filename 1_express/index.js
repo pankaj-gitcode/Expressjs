@@ -45,7 +45,7 @@ app.get('/', (req, res)=>{
 
 app.post('/', (req,res)=>{
     try{
-
+        //POST: Postman->body: {"newKidney": false }
         const newKidney = req.body.newKidney;
         users.map(e=>e.kidneys.push({
             healthy: newKidney
@@ -66,8 +66,6 @@ app.post('/', (req,res)=>{
 app.put('/', (req, res)=>{
     try{
 
-        
-    
         const kidneysHealth = [];
         users.map(e=>e.kidneys.map(e=>{
             
@@ -76,7 +74,7 @@ app.put('/', (req, res)=>{
                 }
             
         }))
-        console.log(kidneyHealth, kidneysHealth)
+        console.log(kidneysHealth)
         res.status(200).json({msg: 'done'})
     }
     
@@ -92,7 +90,7 @@ app.delete('/', (req, res)=>{
         // users.map(e=>e.kidneys.map(e=>{
             
             //     if(e.healthy===false ){
-                //         delete e;
+                //         delete e.healthy;
                 //     }
                 // }))
                 
