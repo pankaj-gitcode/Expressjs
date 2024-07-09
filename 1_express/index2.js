@@ -2,21 +2,29 @@ const express = require('express');
 const app = express();
 const PORT = 3000;
 
-app.listen(PORT, ()=>console.log(`PORT Listening on: ${PORT}`));
 
 app.use(express.json());
 
 app.post('/health-checkup', (req, res)=>{
     try{
         const kidneys = req.body.kidneys //in array form
-    const kidneysLength = kidneys.length;
+        const kidneysLength = kidneys.length;
 
-    res.send(200).json({
+    res.status(200).json({
         kidneysLength
     })
-    // res.send(`${kidneysLength} kidneys`)
+    
     }
     catch(err){
         res.status(500).json({msg: err.message})
     }
 })
+
+// ----------- using Global-Catch-Error-Handelling -----------
+app.use((err, req, res, next)=>{
+    res.status(500).json({
+        'msg': 'Invalid Input'
+    })
+})
+
+app.listen(PORT, ()=>console.log(`PORT Listening on: ${PORT}`));
