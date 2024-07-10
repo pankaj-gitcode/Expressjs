@@ -9,7 +9,7 @@ const fetchAPI = async ()=>{
     const res = await response.json();
     console.log(res.data)
     // document.getElementsByTagName('p')[0].innerText = JSON.stringify(res);
-    return JSON.stringify(res.data);
+    return res.data;
 }
 
 console.log(typeof fetchAPI())
@@ -19,10 +19,8 @@ console.log(typeof apiData, 'FETCHAPI:',apiData);
 app.get('/fethAPI',async (req, res)=>{
 
     const apiData = await fetchAPI();
-    const withputSlashdata = JSON.parse(apiData);
-    const finalData = JSON.stringify(withputSlashdata);
-
-    fetchAPI? res.status(200).json({msg:  `${finalData}`}) : res.status(404).json({msg: 'Some Error'})
+   
+    fetchAPI? res.status(200).json(apiData) : res.status(404).json({msg: 'Some Error'})
     
 } )
 
