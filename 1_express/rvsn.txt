@@ -1,0 +1,80 @@
+1. mkdir express-dir | touch index.js  [express-dir > index.js]
+2. > express-dir\npm i express
+3. actual coding starts inside "index.js"
+
+    const express = require('express');
+    const app = express();
+    
+    appp.listen(3000);
+
+4. to run : >express-dir\ node index.js    [everytime code edited run this]
+
+--------------1st mini code -------
+index.js: node index.js
+    const express = require('express');
+    const app = express();
+
+    app.get('/', (req, res)=>{console.log('EXPRESS WORKING'); res.response('EXPRESS WORKING...') })
+
+    app.listen(3000);
+
+    -------------- 2nd code ------------
+index.js : node index.js [Query Parameter]
+
+    const express = require('express'); const app=express(); const PORT = 2000;
+    const sum = (num)=>{ const sum=0; for(let i=1; i<=num; i++){ sum+=1; } }
+    app.get('/sum', (req,res)=>{ 
+        const num = req.query.num;
+        // res.send(`Sum of ${num} numbers : ${sum(num)}`);
+        //above line in JSON format
+        res.json({sum: `sum is: ${sum}`});
+     })
+
+
+     ----------------- 3rd code  ---------------
+     var users = [{
+        name: 'john',
+        kidneys:[{
+            healthy:false,
+        }]
+     }];
+
+     1. numberOfKidneys, num of Healthy Kidneys & num of Unhealthy kidneys ==> app.get(     )
+        GET Method:
+            const express = require('express'); const app = express(); const PORT = 2000;
+            app.listen(PORT, (req,res)=>console.log(`PORT Listening on: ${PORT}`));
+            app.use(express.json());
+
+            app.get('/', (req, res)=>{
+                const totalKidneyLen = users.map(e=>e.kidneys.length).join(''); //Kidneys total length in string format
+                let healthyKidney = 0;
+                let unhealthyKidney = 0;
+
+                users.map(e=>e.kidneys.map(e=>{
+                    e.healthy? healthyKidney += 1: unhealthyKidney += 1;
+                }));
+
+                res.json({
+                    totalKidneyLen,
+                    healthyKidney,
+                    unhealthyKidney
+                })
+            })
+
+     2. Whenever person comes add ungelathy kidneys
+
+------------------- authentication -------------------
+1. npm i zod
+2. const zod = require('zod');
+3. const schema = zod.object({
+    username: zod.string(),
+    email: zod.string().zod.email(),
+    password: zod.string().min(8),
+})
+
+4. app.use(express.jsoon());
+5. app.post('/login', (req, res)=>{
+    const obj = req.body.obj;
+    const response = schema.safeParse(obj);
+    response? res.status(200).json({response.success}) : res.status(400).json({msg: 'Invalid entry'})
+})
