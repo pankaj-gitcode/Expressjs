@@ -1,21 +1,21 @@
-const User = require('../db/db');
-
+const { admin } = require("../db/db");
 
 const adminMiddleware = async (req, res, next)=>{
     try{
-
         const username = req.headers.username;
         const password = req.headers.password;
 
-        //check user existance
-        const userExist = await findOne({username, password});
-        userExist? next(): res.status(403).json({msg: `Admin doesn't exist!`});
+        //checking if Admin in DB
+        const adminExist = await admin.findOne({
+            username,
+            password
+        })
+        adminExist?next():res.status(404).json({msg: `${username} is not ADMIN`});
     }
     catch(err){
         res.status(501).json({msg: err.message})
     }
-
 }
 
-//export 
+//export middleware
 module.exports = adminMiddleware;

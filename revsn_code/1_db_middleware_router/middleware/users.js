@@ -1,19 +1,19 @@
-import { User } from "../db/db";
+const { users } = require("../db/db");
 
-const userMiddleware = (req, res, next)=>{
+const userMiddleware = async (req, res, next)=>{
     try{
-
         const username = req.headers.username;
         const password = req.headers.password;
 
-        //user existance
-        User.findOne({
-            username, password
-        })
-        .then((userExists)=>userExists? next(): res.status(403).json({msg: `${username} doesn't exist!!`}));
+        //check if user is in DB
+        users.findOne({username, password})
+        .then(userExist=>userExist?next():res.status(404).json({msg: `${username} is not in DB`}))
+        .catch(err=>console.log(err.message))
     }
-    catch(err){res.status(501).json({msg: err.message})}
+    catch(err){
+        res.status(503).json({msg: err.message})
     }
+}
 
-    //export
-    module.exports = userMiddleware;
+//export middleware
+module.exports=userMiddleware;

@@ -1,28 +1,28 @@
 const express = require('express');
-const app = express();
-const {User, Course} = require('../db/db');
+const { admin, course } = require('../db/db');
 const adminMiddleware = require('../middleware/admin');
+const app = express();
 
-app.post('/signup', async (req, res)=>{
+
+app.use(express.json());
+    //---------- POST: SIGNUP --------------------
+app.post('/singnup', async(req, res)=>{
     try{
-        const username = req.body.username;
-        const password = req.body.password;
+        username = req.body.username;
+        password = req.body.password;
 
-        //check userExistance
-        const userExist = await findOne({username, password});
-        if(!userExist){
-            res.status(403).json({msg: `User doesn't exist!!`})
+        //check if admin already exist
+        const adminExist = await admin.findOne({username, password});
+        if(!adminExist){
+            res.status(404).json({msg: `${username} doesn\'t exist`})
         }
-        const createUser = await User.create({
-            username, password
-        })
-        res.status(200).json({msg: `${username} has been created successfully!!`})
+        const createAdmin = await admin.create({username, password});
+        res.status(200).json({msg: `${username} has been created successfully!`})
     }
-    catch(err){
-        msg: err.message
-    }
+    catch(err){res.status(500).json({msg: err.message})}
 })
 
+    // ----------- POST: COURSES: once verified from Admin-Middleware then only access to create courses by ADMIN
 app.post('/courses', adminMiddleware ,(req, res)=>{
     try{
         const title = req.body.title;
@@ -30,11 +30,33 @@ app.post('/courses', adminMiddleware ,(req, res)=>{
         const price = req.body.price;
         const imageLink = req.body.imageLink;
 
-        //check if course exisit already, if not create it else msg: already course created
-        Course.findOne({title})
-        .then((courseExist)=>{
-            if(!courseExist){ res.status(404).json({msg: `Course doen't exist`})}
-            const createCourse = 
+        //check if course already exist
+        course.findOne({
+            title
+        })
+        .then(courseExist=>{
+            if(!courseExist){
+                res.status(404).json({msg: `${course} doen\'t exist.`});
+            }
+            course.create({
+                title,description, price, imageLink
+            })
+        })
+        .catch(err=>console.log("ERROR: ADMIN->Course_Creation: ", err.message));
+    }
+    catch(err){res.status(503).json({msg:  `Invalid: ${err.message}`})}
+})
+
+    //------------- GET: COURSES: All the created course by ADMIN -------------------------
+app.get('/courses', adminMiddleware ,async(req, res)=>{
+    try{
+        const showCourses = await course.find({});
+        res.status(200).json({
+            courses: showCourses
         })
     }
+    catch(err){res.status(503).json({msg: `GET-COURSE ERROR: ${err.message} `})}
 })
+
+//export the Object 'app'
+module.export = app;
