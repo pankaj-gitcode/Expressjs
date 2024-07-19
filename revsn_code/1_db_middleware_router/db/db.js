@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const URL = '';
+const URL = 'mongodb+srv://pankajadityadev:8H0jNCDpyeMpVsjg@project-v-2.fib3wyh.mongodb.net/course-selling-App-2';
 mongoose.connect(URL);
 
 const adminSchema = new mongoose.Schema({
@@ -10,7 +10,7 @@ const adminSchema = new mongoose.Schema({
 const courseSchema = new mongoose.Schema({
     title: String,
     description: String,
-    price: Number,
+    price: String,
     imageLink: String
 })
 
@@ -19,18 +19,18 @@ const usersSchema = new mongoose.Schema({
     password: String,
     purchasedCourses: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'course'
+        ref: 'Course'
     }]
 })
 
 //create model
-const admin = mongoose.model('admin', adminSchema);
-const users = mongoose.model('users', usersSchema);
-const course = mongoose.model('course', courseSchema);
+const Admin = mongoose.model('Admin', adminSchema);
+const Users = mongoose.model('Users', usersSchema);
+const Course = mongoose.model('Course', courseSchema);
 
 //exports the module
 module.exports = {
-    admin,
-    users,
-    course
+    Admin,
+    Users,
+    Course
 }

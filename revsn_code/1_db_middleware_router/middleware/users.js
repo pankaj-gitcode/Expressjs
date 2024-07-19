@@ -1,4 +1,4 @@
-const { users } = require("../db/db");
+const { Users } = require("../db/db");
 
 const userMiddleware = async (req, res, next)=>{
     try{
@@ -6,7 +6,7 @@ const userMiddleware = async (req, res, next)=>{
         const password = req.headers.password;
 
         //check if user is in DB
-        users.findOne({username, password})
+        Users.findOne({username, password})
         .then(userExist=>userExist?next():res.status(404).json({msg: `${username} is not in DB`}))
         .catch(err=>console.log(err.message))
     }

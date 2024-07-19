@@ -1,4 +1,4 @@
-const { admin } = require("../db/db");
+const { Admin } = require("../db/db");
 
 const adminMiddleware = async (req, res, next)=>{
     try{
@@ -6,11 +6,11 @@ const adminMiddleware = async (req, res, next)=>{
         const password = req.headers.password;
 
         //checking if Admin in DB
-        const adminExist = await admin.findOne({
+        const adminExist = await Admin.findOne({
             username,
             password
         })
-        adminExist?next():res.status(404).json({msg: `${username} is not ADMIN`});
+        adminExist?next():res.status(403).json({msg: `${username} is not ADMIN`});
     }
     catch(err){
         res.status(501).json({msg: err.message})
