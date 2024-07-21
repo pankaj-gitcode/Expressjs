@@ -30,6 +30,13 @@ router.post('/courses', adminMiddleware,async(req,res)=>{
         const price = req.body.price;
         const imageLink = req.body.imageLink ;
 
+        //check if course already exist
+        const courseExist = await Course.findOne({title});
+        if(courseExist){
+            res.status(303).json({msg: `${courseExist.title} already exist...`});
+            return;
+        } 
+
         //create course once all looks from the Adminmiddleware
         const createCourse = await Course.create({
             title,
@@ -37,7 +44,7 @@ router.post('/courses', adminMiddleware,async(req,res)=>{
             price,
             imageLink
         });
-        res.status(200).json({msg: `$(createCourse.id):${createCourse.title} has been created successfully!!`});
+        res.status(200).json({msg: `${createCourse._id}:${createCourse.title} has been created successfully!!`});
     }
     catch(err){res.status(503).json({msg: `ERROR: [routes/admin/] ${err.message}`})}
 });
