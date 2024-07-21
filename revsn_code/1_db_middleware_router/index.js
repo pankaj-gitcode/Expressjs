@@ -1,11 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const adminRouter = require('./routes/admin');
-const PORT = 3000;
+const PORT = 2000;
 const app = express();
-// const admin = route
+const adminRouter = require('./routes/admin');
+
+app.listen(PORT, (req, res)=>{console.log(`Server listening on PORT: ${PORT}`)});
 
 app.use(bodyParser.json());
 app.use('/admin', adminRouter);
-
-app.listen(PORT, (req,res)=>console.log(`Server is listening on PORT: ${PORT}`));
