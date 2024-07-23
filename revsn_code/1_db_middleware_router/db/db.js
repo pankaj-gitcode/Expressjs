@@ -11,7 +11,11 @@ const adminSchema = new mongoose.Schema({
 
 const userSchema = new mongoose.Schema({
     username: String,
-    password: String
+    password: String,
+    purchasedCourse: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Course'
+    }]
 });
 
 const courseSchema = new mongoose.Schema({
