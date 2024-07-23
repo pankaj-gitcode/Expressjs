@@ -13,7 +13,7 @@ router.post('/signup', (req, res)=>{
         Users.findOne({username})
         .then(userExist=>{
             if(userExist){
-                res.status(301).json({msg: `Uer: ${username} already exist!`});
+                res.status(301).json({msg: `User: ${username} already exist!`});
                 return;
             }
             Users.create({username, password});
@@ -67,8 +67,12 @@ router.get('/purchasedCourses',userMiddleware, async(req, res)=>{
     try{
         const username = req.headers.username;
         const password = req.headers.password;
-        const allCourses = await Users.findOne({purchasedCourse});
+        const allCourses = await Users.findOne({username});
+        console.log(`All purchased courses:\n${allCourses.purchasedCourse}`)
         res.status(200).json({msg: `List of all purchased course: ${allCourses}`})
     }
     catch(err){res.status(503).json({msg: `ERROR: [GET:/router/users]=> ${err.message}`})}
 } )
+
+//export the module
+module.exports = router;
