@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const URL = 'mongodb+srv://pankajadityadev:8H0jNCDpyeMpVsjg@project-v-2.fib3wyh.mongodb.net/course-selling-App-3';
 
+//connect to mongoDB
 mongoose.connect(URL);
 
 //create schema: Admin, Users, Course
